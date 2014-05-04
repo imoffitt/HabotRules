@@ -1,0 +1,11 @@
+//created on: 03-May-2014
+package info.habot.tm470.drools.route
+
+rule "A stand alone rule"
+
+    when
+        //conditions
+    then
+        //actions
+
+end

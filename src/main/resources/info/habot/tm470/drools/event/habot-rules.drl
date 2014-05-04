@@ -1,0 +1,52 @@
+//created on: 26-Apr-2014
+package info.habot.tm470.drools
+
+// Set the Dialect to  'mvel' 
+dialect "mvel"
+
+//list any import classes here.
+// Import the various objects from the calling Java Class (ShoppingExample) ...
+import info.habot.tm470.dao.pojo.FusedSensorData
+import info.habot.tm470.dao.pojo.NetworkLink
+import info.habot.tm470.dao.pojo.NetworkNode
+import info.habot.tm470.dao.pojo.StrategicEvent
+
+
+//declare any global variables here
+
+rule "StrategicEvent has a type of Accident (HABOT-01-01)"
+	salience 10
+    when
+        se : StrategicEvent( event_type == se.EVENT_TYPE_ACCIDENT, type_suitable == false )
+    then
+        se.setType_suitable( true );
+        update( se );
+end
+
+rule "StrategicEvent location is suitable to determine alternative routes (HABOT-01-02)" 
+	salience 10
+    when
+    	link : NetworkLink( )
+        se : StrategicEvent( link_id == link.linkId, location_suitable == false )
+    then
+        se.setLocation_suitable( true );
+        update( se );
+
+end
+
+rule "StrategicEvent severity is at a level to start considering alternative routes (HABOT-01-03)"
+	salience 10
+    when
+        se : StrategicEvent( capacity_reduction > 50, severity_suitable == false )
+    then
+        se.setSeverity_suitable( true );
+        update( se );
+end
+
+rule "StrategicEvent alternative route considered (HABOT-01-04)"  salience -50
+    when
+        se : StrategicEvent( type_suitable == true && location_suitable == true && severity_suitable == true )
+    then
+        se.setConsider_alternative_route( true );
+        System.out.println( "StrategicEvent alternative route considered" );
+end

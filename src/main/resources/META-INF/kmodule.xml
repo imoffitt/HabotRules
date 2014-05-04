@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
+    <kbase name="event-rules" packages="info.habot.tm470.drools.event">
+        <ksession name="ksession-event-rules"/>
+    </kbase>
+    <kbase name="route-rules" packages="info.habot.tm470.drools.route">
+        <ksession name="ksession-route-rules"/>
+    </kbase>
+</kmodule>
