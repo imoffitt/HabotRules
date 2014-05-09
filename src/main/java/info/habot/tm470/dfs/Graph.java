@@ -1,4 +1,5 @@
 package info.habot.tm470.dfs;
+import info.habot.tm470.dao.pojo.NetworkLink;
 import info.habot.tm470.dao.pojo.NetworkNode;
 
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ public class Graph {
 	public float[][] adjMatrix;// Edges will be represented as adjacency Matrix
 	int size;
 
-	private HashMap<String, Float> distanceBetweenNodes;
+	private HashMap<String, NetworkLink> distanceBetweenNodes;
 	
-	private static final int MAX_NODES = 25;
-	private static final float MAX_DISTANCE_ALONG = 100;
+	private static final int MAX_NODES = 10;
+	private static final float MAX_DISTANCE_ALONG = 50;
 
 	private int nodeCount;
 	private float distanceAlong;
@@ -23,7 +24,7 @@ public class Graph {
 	public Graph() {
 		this.nodeCount = 0;
 		this.distanceAlong = 0;
-		this.distanceBetweenNodes = new HashMap<String, Float>();
+		this.distanceBetweenNodes = new HashMap<String, NetworkLink>();
 	}
 
 	public void setRootNode(NetworkNode n) {
@@ -49,14 +50,18 @@ public class Graph {
 			adjMatrix = new float[size][size];
 		}
 
-		int startIndex = nodes.indexOf(start);
-		int endIndex = nodes.indexOf(end);
+		int startIndex = nodes.indexOf(start.getNodeId());
+		int endIndex = nodes.indexOf(end.getNodeId());
+		
+		if (startIndex < 1 || endIndex < 0) {
+			System.out.println("INDEX OUT");
+		}
 		adjMatrix[startIndex][endIndex] = 1;
 		adjMatrix[endIndex][startIndex] = 1;
 	}
 	
-	public void setDistanceBetweenNodes (NetworkNode start, NetworkNode end, float distance) {
-		distanceBetweenNodes.put((start.getNodeId() + "/" + end.getNodeId()), distance);
+	public void setNetworkLink (NetworkNode start, NetworkNode end, NetworkLink networkLink) {
+		distanceBetweenNodes.put((start.getNodeId() + "/" + end.getNodeId()), networkLink);
 		connectNode(start, end);
 	}
 
@@ -95,12 +100,14 @@ public class Graph {
 				}
 				this.nodeCount++;
 				
+				/*
 				this.distanceAlong = this.distanceAlong + distanceBetweenNodes.get(n.getNodeId() + "/" + child.getNodeId());
 				System.out.println("distanceAlong=" + this.distanceAlong);
 				if (this.distanceAlong > MAX_DISTANCE_ALONG) {
 					System.out.println("MAX_DISTANCE_ALONG");
 					break;
 				}
+				*/
 
 				// Add some heuristics to guide the search
 				// Set a limit to the number of nodes traversed.

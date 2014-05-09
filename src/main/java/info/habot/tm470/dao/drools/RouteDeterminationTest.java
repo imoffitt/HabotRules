@@ -1,5 +1,6 @@
 package info.habot.tm470.dao.drools;
 
+import java.util.HashMap;
 import java.util.List;
 
 import info.habot.tm470.dao.EventImpl;
@@ -31,6 +32,7 @@ public class RouteDeterminationTest {
 	public static void main(String[] args) {
 
 		KieSession kSession = null;
+		Graph graph=new Graph();
 		
 		try {
 			// load up the knowledge base
@@ -49,32 +51,40 @@ public class RouteDeterminationTest {
 		
 		// Get all network links and nodes
 		@SuppressWarnings("resource")
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-				"Beans.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath*:Beans.xml");
+		
 		NetworkNodeImpl networkNodeImpl = 
 			      (NetworkNodeImpl)applicationContext.getBean("networkNodeImpl");
 		NetworkLinkImpl networkLinkImpl = 
 			      (NetworkLinkImpl)applicationContext.getBean("networkLinkImpl");
 		EventImpl eventImpl = 
 			      (EventImpl)applicationContext.getBean("eventImpl");
-
-		// Get all network links
-		List<NetworkLink> networkLintList = networkLinkImpl.listNetworkLink();
 		
-		// Add to knowledge base
-		for (NetworkLink networkLink : networkLintList) {
-			kSession.insert( networkLink );
-		}
-		
-		/*
 		// Get all network nodes
 		List<NetworkNode> networkNodeList = networkNodeImpl.listNetworkNode();
 		
 		// Add to knowledge base
 		for (NetworkNode networkNode : networkNodeList) {
 			kSession.insert( networkNode );
+			graph.addNode(networkNode);
 		}
 		
+		// Get all network links
+		List<NetworkLink> networkLintList = networkLinkImpl.listNetworkLink();
+		
+		HashMap<String, NetworkNode> networkNodeMap = networkNodeImpl.getNetworkNodes();
+		
+		// Add to knowledge base
+		for (NetworkLink networkLink : networkLintList) {
+			kSession.insert( networkLink );
+			graph.setNetworkLink(networkNodeMap.get(networkLink.getFromNodeIdentifier()),networkNodeMap.get(networkLink.getToNodeIdentifier()), networkLink);
+		}
+		
+		
+		graph.setRootNode(networkNodeMap.get(125000501));
+		graph.setTargetNode(networkNodeMap.get(1990893));
+		
+		/*
 		// Get all active events
 		List<StrategicEvent> eventList = eventImpl.getActiveEvents();
 		
@@ -90,7 +100,7 @@ public class RouteDeterminationTest {
  * */
 		
 		//Lets create nodes as given as an example in the article
-		NetworkNode nA=new NetworkNode("001");
+/*		NetworkNode nA=new NetworkNode("001");
 		NetworkNode nB=new NetworkNode("002");
 		NetworkNode nC=new NetworkNode("003");
 		NetworkNode nD=new NetworkNode("004");
@@ -115,6 +125,8 @@ public class RouteDeterminationTest {
 		graph.setDistanceBetweenNodes(nB,nE, 35);
 		graph.setDistanceBetweenNodes(nB,nF, 40);
 		graph.setDistanceBetweenNodes(nC,nF, 45);
+		
+		*/
 		
 		//Perform the traversal of the graph
 		System.out.println("DFS Traversal of a tree is ------------->");
