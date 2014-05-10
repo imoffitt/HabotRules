@@ -34,6 +34,9 @@ public class RouteDeterminationTest {
 		KieSession kSession = null;
 		Graph graph=new Graph();
 		
+		HashMap<Integer, NetworkLink> networkLinkMap = new HashMap<Integer, NetworkLink>();
+		HashMap<String, NetworkLink> toNetworkLinkMap = new HashMap<String, NetworkLink>();
+		
 		try {
 			// load up the knowledge base
 			KieServices ks = KieServices.Factory.get();
@@ -69,20 +72,61 @@ public class RouteDeterminationTest {
 			graph.addNode(networkNode);
 		}
 		
+//		NetworkNode networkNode1 = new NetworkNode();
+//		networkNode1.setNodeId("1030584");
+//		graph.addNode(networkNode1);
+//		NetworkNode networkNode2 = new NetworkNode();
+//		networkNode2.setNodeId("1030584");
+//		graph.addNode(networkNode2);
+		
 		// Get all network links
-		List<NetworkLink> networkLintList = networkLinkImpl.listNetworkLink();
+		List<NetworkLink> networkLinkList = networkLinkImpl.listNetworkLink();
 		
 		HashMap<String, NetworkNode> networkNodeMap = networkNodeImpl.getNetworkNodes();
 		
 		// Add to knowledge base
-		for (NetworkLink networkLink : networkLintList) {
+		for (NetworkLink networkLink : networkLinkList) {
 			kSession.insert( networkLink );
-			graph.setNetworkLink(networkNodeMap.get(networkLink.getFromNodeIdentifier()),networkNodeMap.get(networkLink.getToNodeIdentifier()), networkLink);
+			// Don't link the link where the event is located
+			// 110001601 = exit slip onto M6 southbound
+			// 110001701 = M6 northbound exit slip
+			// 110005901 = entry slip sb	
+//			if ( (networkLink.getLinkId() != 110001601) &&					
+//					(networkLink.getLinkId() != 110005901)){
+				
+				graph.setNetworkLink(networkNodeMap.get(networkLink.getFromNodeIdentifier()),networkNodeMap.get(networkLink.getToNodeIdentifier()), networkLink);
+				
+				networkLinkMap.put(networkLink.getLinkId(), networkLink);
+				toNetworkLinkMap.put(networkLink.getToNodeIdentifier(), networkLink);
+//			}
+		}
+		
+		graph.networkLinkMap = networkLinkMap;
+		graph.toNetworkLinkMap = toNetworkLinkMap;
+		graph.targetRoadName = "M56";
+		
+//		NetworkLink networkLink = new NetworkLink ();
+//		networkLink.setLinkId(103058201);
+//		networkLink.setFromNodeIdentifier("1030584");
+//		networkLink.setToNodeIdentifier("1030582");
+//		networkLink.setLocationName("A23 northbound within the A281 junction");
+//		networkLink.setRoadNumber("A23");
+//		graph.setNetworkLink(networkNodeMap.get(networkLink.getFromNodeIdentifier()),networkNodeMap.get(networkLink.getToNodeIdentifier()), networkLink);
+
+		NetworkNode rootNetworkNode = new NetworkNode();
+		NetworkNode targetNetworkNode = new NetworkNode();
+		rootNetworkNode = networkNodeMap.get("1100015");
+		targetNetworkNode = networkNodeMap.get("1990894");
+		
+		if (rootNetworkNode != null) {
+			graph.setRootNode(rootNetworkNode);
+			graph.setTargetNode(targetNetworkNode);
+		
+			graph.dfs();
 		}
 		
 		
-		graph.setRootNode(networkNodeMap.get(125000501));
-		graph.setTargetNode(networkNodeMap.get(1990893));
+		System.out.println("- - - END - - -");
 		
 		/*
 		// Get all active events
@@ -98,9 +142,9 @@ public class RouteDeterminationTest {
 //		logger.close();
  * 
  * */
-		
+		/*
 		//Lets create nodes as given as an example in the article
-/*		NetworkNode nA=new NetworkNode("001");
+		NetworkNode nA=new NetworkNode("001");
 		NetworkNode nB=new NetworkNode("002");
 		NetworkNode nC=new NetworkNode("003");
 		NetworkNode nD=new NetworkNode("004");
@@ -108,28 +152,29 @@ public class RouteDeterminationTest {
 		NetworkNode nF=new NetworkNode("006");
 
 		//Create the graph, add nodes, create edges between nodes
-		Graph graph=new Graph();
+//		Graph graph=new Graph();
 		graph.addNode(nA);
 		graph.addNode(nB);
 		graph.addNode(nC);
 		graph.addNode(nD);
 		graph.addNode(nE);
 		graph.addNode(nF);
+		
 		graph.setRootNode(nA);
 		graph.setTargetNode(nF);
 		
 		// Loop through all the links and get the node connectivity.
-		graph.setDistanceBetweenNodes(nA,nB, 20);
-		graph.setDistanceBetweenNodes(nA,nC, 25);
-		graph.setDistanceBetweenNodes(nA,nD, 30);
-		graph.setDistanceBetweenNodes(nB,nE, 35);
-		graph.setDistanceBetweenNodes(nB,nF, 40);
-		graph.setDistanceBetweenNodes(nC,nF, 45);
-		
-		*/
+		graph.connectNode(nA,nB);
+		graph.connectNode(nA,nC);
+		graph.connectNode(nA,nD);
+		graph.connectNode(nB,nE);
+		graph.connectNode(nB,nF);
+		graph.connectNode(nC,nF);
 		
 		//Perform the traversal of the graph
 		System.out.println("DFS Traversal of a tree is ------------->");
-		graph.dfs();
+		
+		
+		graph.dfs();*/
 	}
 }

@@ -1,4 +1,5 @@
 package info.habot.tm470.dfs;
+
 import info.habot.tm470.dao.pojo.NetworkLink;
 import info.habot.tm470.dao.pojo.NetworkNode;
 
@@ -9,13 +10,18 @@ import java.util.Stack;
 public class Graph {
 	public NetworkNode rootNode;
 	public NetworkNode targetNode;
-	public ArrayList<NetworkNode> nodes = new ArrayList<NetworkNode>();
+	public String targetRoadName;
+	private boolean targetRoadFound;
+	public ArrayList<NetworkNode> nodes;
 	public float[][] adjMatrix;// Edges will be represented as adjacency Matrix
 	int size;
 
 	private HashMap<String, NetworkLink> distanceBetweenNodes;
-	
-	private static final int MAX_NODES = 10;
+	public HashMap<Integer, NetworkLink> networkLinkMap;
+	public NetworkLink currentLink;
+	public HashMap<String, NetworkLink> toNetworkLinkMap;
+
+	private static final int MAX_NODES = 50;
 	private static final float MAX_DISTANCE_ALONG = 50;
 
 	private int nodeCount;
@@ -25,6 +31,10 @@ public class Graph {
 		this.nodeCount = 0;
 		this.distanceAlong = 0;
 		this.distanceBetweenNodes = new HashMap<String, NetworkLink>();
+		this.nodes = new ArrayList<NetworkNode>();
+		this.networkLinkMap = new HashMap<Integer, NetworkLink>();
+		this.toNetworkLinkMap = new HashMap<String, NetworkLink>();
+		this.targetRoadFound = false;
 	}
 
 	public void setRootNode(NetworkNode n) {
@@ -44,34 +54,40 @@ public class Graph {
 	}
 
 	// This method will be called to make connect two nodes
-	public void connectNode(NetworkNode start, NetworkNode end) {
+	public void connectNode(NetworkNode start, NetworkNode end, int linkId) {
 		if (adjMatrix == null) {
 			size = nodes.size();
 			adjMatrix = new float[size][size];
 		}
 
-		int startIndex = nodes.indexOf(start.getNodeId());
-		int endIndex = nodes.indexOf(end.getNodeId());
-		
-		if (startIndex < 1 || endIndex < 0) {
-			System.out.println("INDEX OUT");
-		}
+		int startIndex = nodes.indexOf(start);
+		int endIndex = nodes.indexOf(end);
+
 		adjMatrix[startIndex][endIndex] = 1;
 		adjMatrix[endIndex][startIndex] = 1;
 	}
-	
-	public void setNetworkLink (NetworkNode start, NetworkNode end, NetworkLink networkLink) {
-		distanceBetweenNodes.put((start.getNodeId() + "/" + end.getNodeId()), networkLink);
-		connectNode(start, end);
+
+	public void setNetworkLink(NetworkNode start, NetworkNode end,
+			NetworkLink networkLink) {
+		distanceBetweenNodes.put((start.getNodeId() + "/" + end.getNodeId()),
+				networkLink);
+		connectNode(start, end, networkLink.getLinkId());
 	}
 
 	private NetworkNode getUnvisitedChildNode(NetworkNode n) {
+		
+		NetworkNode networkNode;
+		
 		int index = nodes.indexOf(n);
 		int j = 0;
 		while (j < size) {
+			currentLink = this.networkLinkMap.get(adjMatrix[index][j]);
+		
 			if (adjMatrix[index][j] == 1
-					&& ((NetworkNode) nodes.get(j)).visited == false) {
-				return (NetworkNode) nodes.get(j);
+					&& ((NetworkNode) nodes.get(j)).visited == 0) {
+				
+				networkNode = (NetworkNode) nodes.get(j);
+				return networkNode;
 			}
 			j++;
 		}
@@ -82,44 +98,60 @@ public class Graph {
 	public void dfs() {
 		// DFS uses Stack data structure
 		Stack<NetworkNode> s = new Stack<NetworkNode>();
-		s.push(this.rootNode);
-		rootNode.visited = true;
-		printNode(rootNode);
-		while (!s.isEmpty()) {
-			NetworkNode n = (NetworkNode) s.peek();
-			NetworkNode child = getUnvisitedChildNode(n);
-			if (child != null) {
-				child.visited = true;
-				printNode(child);
-				s.push(child);
-				if (child == this.targetNode) {
-					System.out.println("Target Node '" + child.getNodeId()
-							+ "' reached.");
-					
-					// Save route
-				}
-				this.nodeCount++;
-				
-				/*
-				this.distanceAlong = this.distanceAlong + distanceBetweenNodes.get(n.getNodeId() + "/" + child.getNodeId());
-				System.out.println("distanceAlong=" + this.distanceAlong);
-				if (this.distanceAlong > MAX_DISTANCE_ALONG) {
-					System.out.println("MAX_DISTANCE_ALONG");
-					break;
-				}
-				*/
+		if (this.rootNode != null) {
 
-				// Add some heuristics to guide the search
-				// Set a limit to the number of nodes traversed.
-				if (nodeCount == MAX_NODES) {
-					System.out.println("MAX_NODES");
-					break;
+			s.push(this.rootNode);
+
+			rootNode.visited = 1;
+			printNode(rootNode);
+
+			while (!s.isEmpty()) {
+				NetworkNode n = (NetworkNode) s.peek();
+				NetworkNode child = getUnvisitedChildNode(n);
+				if (child != null) {
+					
+					child.visited = 1;
+					printNode(child);
+					s.push(child);
+					
+					if (child.getNodeId().equals(this.targetNode.getNodeId())) {
+						System.out.println("Target Node '" + child.getNodeId()
+								+ "' reached.");
+
+						// Save route
+						break;
+					}
+					this.nodeCount++;
+					
+					double distance = child.getLocation().distance(rootNode.getLocation());
+					System.out.println("distance=" + distance);
+
+					/*
+					 * this.distanceAlong = this.distanceAlong +
+					 * distanceBetweenNodes.get(n.getNodeId() + "/" +
+					 * child.getNodeId()); System.out.println("distanceAlong=" +
+					 * this.distanceAlong); if (this.distanceAlong >
+					 * MAX_DISTANCE_ALONG) {
+					 * System.out.println("MAX_DISTANCE_ALONG"); break; }
+					 */
+
+//					System.out.println("nodeCount=" + nodeCount );
+					
+					// Add some heuristics to guide the search
+					// Set a limit to the number of nodes traversed.
+					if (nodeCount == MAX_NODES) {
+						System.out.println("MAX_NODES");
+						break;
+					}
+
+				} else {
+					s.pop();
 				}
-				
-			} else {
-				s.pop();
 			}
+		} else {
+			System.out.println("root null");
 		}
+
 		// Clear visited property of nodes
 		clearNodes();
 	}
@@ -129,13 +161,31 @@ public class Graph {
 		int i = 0;
 		while (i < size) {
 			NetworkNode n = (NetworkNode) nodes.get(i);
-			n.visited = false;
+			n.visited = 0;
 			i++;
 		}
 	}
 
 	// Utility methods for printing the node's label
 	private void printNode(NetworkNode n) {
-		System.out.print(n.getNodeId() + " ");
+
+		String locationName = "";
+		try {
+			locationName = this.toNetworkLinkMap.get(n.getNodeId()).getLocationName();
+			if (locationName.indexOf(targetRoadName) > 0) {
+				targetRoadFound = true;
+			}
+		} catch (Exception ex) {
+//			System.out.println("locationName NULL");
+		}
+		
+		if (locationName.indexOf(targetRoadName) > 0) {
+		System.out.println(n.getNodeId() + " " + locationName + ", targetRoadFound=" + targetRoadFound);
+		}
+		
+//		if (currentLink != null) {
+//			System.out.println(currentLink.getLocationName());
+//		}
+
 	}
 }
