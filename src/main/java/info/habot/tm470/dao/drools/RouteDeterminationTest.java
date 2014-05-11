@@ -8,15 +8,11 @@ import info.habot.tm470.dao.NetworkLinkImpl;
 import info.habot.tm470.dao.NetworkNodeImpl;
 import info.habot.tm470.dao.pojo.NetworkLink;
 import info.habot.tm470.dao.pojo.NetworkNode;
-import info.habot.tm470.dao.pojo.StrategicEvent;
 import info.habot.tm470.dfs.Graph;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.internal.event.KnowledgeRuntimeEventManager;
-import org.kie.internal.logger.KnowledgeRuntimeLogger;
-import org.kie.internal.logger.KnowledgeRuntimeLoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

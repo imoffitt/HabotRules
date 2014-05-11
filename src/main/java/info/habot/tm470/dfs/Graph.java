@@ -21,11 +21,11 @@ public class Graph {
 	public NetworkLink currentLink;
 	public HashMap<String, NetworkLink> toNetworkLinkMap;
 
-	private static final int MAX_NODES = 50;
-	private static final float MAX_DISTANCE_ALONG = 50;
+	private static final int MAX_NODES = 15000;
+	private static final float MAX_DISTANCE_ALONG = 10000;
 
 	private int nodeCount;
-	private float distanceAlong;
+	private double distanceAlong;
 
 	public Graph() {
 		this.nodeCount = 0;
@@ -116,24 +116,20 @@ public class Graph {
 					
 					if (child.getNodeId().equals(this.targetNode.getNodeId())) {
 						System.out.println("Target Node '" + child.getNodeId()
-								+ "' reached.");
+								+ "' reached. Distance=" + this.distanceAlong);
 
 						// Save route
 						break;
 					}
 					this.nodeCount++;
 					
-					double distance = child.getLocation().distance(rootNode.getLocation());
-					System.out.println("distance=" + distance);
-
-					/*
-					 * this.distanceAlong = this.distanceAlong +
-					 * distanceBetweenNodes.get(n.getNodeId() + "/" +
-					 * child.getNodeId()); System.out.println("distanceAlong=" +
-					 * this.distanceAlong); if (this.distanceAlong >
-					 * MAX_DISTANCE_ALONG) {
-					 * System.out.println("MAX_DISTANCE_ALONG"); break; }
-					 */
+					// Check the maximum distance along route
+					this.distanceAlong = this.distanceAlong + child.getLocation().distance(rootNode.getLocation());
+//					System.out.println("distanceAlong=" + this.distanceAlong);
+					if (this.distanceAlong > MAX_DISTANCE_ALONG) {
+						System.out.println("MAX_DISTANCE_ALONG = " + this.distanceAlong);
+						break;
+					}
 
 //					System.out.println("nodeCount=" + nodeCount );
 					
@@ -180,12 +176,7 @@ public class Graph {
 		}
 		
 		if (locationName.indexOf(targetRoadName) > 0) {
-		System.out.println(n.getNodeId() + " " + locationName + ", targetRoadFound=" + targetRoadFound);
+			System.out.println(n.getNodeId() + " " + locationName + ", targetRoadFound=" + targetRoadFound);
 		}
-		
-//		if (currentLink != null) {
-//			System.out.println(currentLink.getLocationName());
-//		}
-
 	}
 }
