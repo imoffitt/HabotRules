@@ -8,21 +8,21 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class Graph {
-	public NetworkNode rootNode;
-	public NetworkNode targetNode;
-	public String targetRoadName;
-	private boolean targetRoadFound;
-	public ArrayList<NetworkNode> nodes;
-	public float[][] adjMatrix;// Edges will be represented as adjacency Matrix
-	int size;
+	private NetworkNode rootNode;
+	private NetworkNode targetNode;
+	private ArrayList<NetworkNode> nodes;
+	private float[][] adjMatrix;// Edges will be represented as adjacency Matrix
+	private int size;
 
 	private HashMap<String, NetworkLink> distanceBetweenNodes;
-	public HashMap<Integer, NetworkLink> networkLinkMap;
-	public NetworkLink currentLink;
-	public HashMap<String, NetworkLink> toNetworkLinkMap;
+	private HashMap<Integer, NetworkLink> networkLinkMap;
+//	private NetworkLink currentLink;
+	private HashMap<String, NetworkLink> toNetworkLinkMap;
 
 	private static final int MAX_NODES = 15000;
 	private static final float MAX_DISTANCE_ALONG = 10000;
+	
+	private ArrayList<Integer> alernativeRoute;  // Route where event is located
 
 	private int nodeCount;
 	private double distanceAlong;
@@ -34,7 +34,7 @@ public class Graph {
 		this.nodes = new ArrayList<NetworkNode>();
 		this.networkLinkMap = new HashMap<Integer, NetworkLink>();
 		this.toNetworkLinkMap = new HashMap<String, NetworkLink>();
-		this.targetRoadFound = false;
+		this.alernativeRoute = new ArrayList<Integer>();
 	}
 
 	public void setRootNode(NetworkNode n) {
@@ -81,7 +81,7 @@ public class Graph {
 		int index = nodes.indexOf(n);
 		int j = 0;
 		while (j < size) {
-			currentLink = this.networkLinkMap.get(adjMatrix[index][j]);
+//			currentLink = this.networkLinkMap.get(adjMatrix[index][j]);
 		
 			if (adjMatrix[index][j] == 1
 					&& ((NetworkNode) nodes.get(j)).visited == 0) {
@@ -168,15 +168,35 @@ public class Graph {
 		String locationName = "";
 		try {
 			locationName = this.toNetworkLinkMap.get(n.getNodeId()).getLocationName();
-			if (locationName.indexOf(targetRoadName) > 0) {
-				targetRoadFound = true;
-			}
+			alernativeRoute.add(this.toNetworkLinkMap.get(n.getNodeId()).getLinkId());
 		} catch (Exception ex) {
 //			System.out.println("locationName NULL");
 		}
 		
-		if (locationName.indexOf(targetRoadName) > 0) {
-			System.out.println(n.getNodeId() + " " + locationName + ", targetRoadFound=" + targetRoadFound);
-		}
+		System.out.println(n.getNodeId() + " " + locationName);
+	}
+
+	public HashMap<Integer, NetworkLink> getNetworkLinkMap() {
+		return networkLinkMap;
+	}
+
+	public void setNetworkLinkMap(HashMap<Integer, NetworkLink> networkLinkMap) {
+		this.networkLinkMap = networkLinkMap;
+	}
+
+	public HashMap<String, NetworkLink> getToNetworkLinkMap() {
+		return toNetworkLinkMap;
+	}
+
+	public void setToNetworkLinkMap(HashMap<String, NetworkLink> toNetworkLinkMap) {
+		this.toNetworkLinkMap = toNetworkLinkMap;
+	}
+
+	public ArrayList<Integer> getAlernativeRoute() {
+		return alernativeRoute;
+	}
+
+	public void setAlernativeRoute(ArrayList<Integer> alernativeRoute) {
+		this.alernativeRoute = alernativeRoute;
 	}
 }

@@ -11,8 +11,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source/>
-          <target/>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
       </plugin>
       <plugin>
@@ -80,7 +80,7 @@
        <artifactId>habotDAO</artifactId>  
        <version>1.0</version> 
       <scope>system</scope>
-	<systemPath>${project.basedir}/habotDAO-0.0.1-SNAPSHOT.jar</systemPath>
+	<systemPath>D:\workspace\habotDAO\target\habotDAO-0.0.1-SNAPSHOT.jar</systemPath>
 </dependency>
   </dependencies>
 </project>

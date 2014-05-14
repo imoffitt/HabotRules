@@ -20,15 +20,15 @@ import info.habot.tm470.dao.pojo.StrategicEvent;
 * @version 0.1
 * @see www.habot.info
 */
-public class EventSuitabilityTest {
+public class EventSuitability {
 
+	private KieSession kSession;
+	private KnowledgeRuntimeLogger logger;
+	
 	/**
-	 * @param args
+	 * Constructor
 	 */
-	public static void main(String[] args) {
-
-		
-		KieSession kSession = null;
+	public EventSuitability() {
 		
 		try {
 			// load up the knowledge base
@@ -42,8 +42,11 @@ public class EventSuitabilityTest {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+	}
+
+	public void createKnowledgeBase () {
 		
-		KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, "EventSuitabilityLog");
+//		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, "EventSuitabilityLog");
 		
 		StrategicEvent strategicEvent = new StrategicEvent();
 		
@@ -61,8 +64,12 @@ public class EventSuitabilityTest {
 		kSession.insert( networkLink );
 
 		kSession.fireAllRules();
-		kSession.dispose();             // Statefull sessions *must* be properly disposed of...
-		logger.close();
 	}
-
+	
+	public void endSession () {
+		
+		kSession.fireAllRules();
+		kSession.dispose();             // Statefull sessions *must* be properly disposed of...
+//		logger.close();
+	}
 }
