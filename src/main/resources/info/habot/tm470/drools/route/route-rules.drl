@@ -1,11 +1,46 @@
 //created on: 03-May-2014
 package info.habot.tm470.drools.route
 
-rule "A stand alone rule"
+// Set the Dialect to  'mvel' 
+dialect "mvel"
 
+//list any import classes here.
+import info.habot.tm470.dao.pojo.NetworkLink
+import info.habot.tm470.dao.pojo.NetworkNode
+import info.habot.tm470.dao.pojo.StrategicEvent
+import info.habot.tm470.dao.drools.RouteState;
+
+global Integer MAX_NODES 
+global Float MAX_DISTANCE_ALONG
+global Integer nodeCount
+global Double distanceAlong
+
+rule "Search should stop if the distance along the alternative route is too long (HABOT-02-01)"
+salience 10
     when
-        //conditions
+    	$rs : RouteState( distanceAlong > MAX_DISTANCE_ALONG, distance_too_long == false )
     then
-        //actions
+        modify( $rs ) {
+			setDistance_too_long( true )
+		};
+end
 
+rule "Search should stop if the number of nodes crossed is too large (HABOT-02-02)"
+salience 10
+    when
+        $rs : RouteState( too_many_nodes == false, nodeCount >= MAX_NODES )
+    then
+   		modify( $rs ) {
+			setToo_many_nodes( true )
+		};
+end
+
+rule "Search should stop if the number of nodes crossed is too large or the alternative route is too long (HABOT-02-03)"
+salience -50
+    when
+    	$rs : RouteState ( too_many_nodes != true && distance_too_long != true && route_complete != true)
+    then
+   		modify( $rs ) {
+			setRoute_complete( true )
+		};
 end

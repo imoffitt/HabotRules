@@ -13,6 +13,7 @@ import info.habot.tm470.dao.SqlLookupBean;
 import info.habot.tm470.dao.pojo.FusedSensorData;
 import info.habot.tm470.dao.pojo.NetworkLink;
 import info.habot.tm470.dao.pojo.NetworkNode;
+import info.habot.tm470.dao.pojo.Route;
 import info.habot.tm470.dao.pojo.StrategicEvent;
 import info.habot.tm470.dfs.Graph;
 
@@ -35,7 +36,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class RouteDetermination {
 
-	private KieSession kSession;
+//	private KieSession kSession;
 	private Graph graph;
 	private HashMap<Integer, NetworkLink> networkLinkMap;
 	private HashMap<String, NetworkLink> toNetworkLinkMap;
@@ -58,9 +59,9 @@ public class RouteDetermination {
 
 	public RouteDetermination() {
 
-		kSession = null;
+//		kSession = null;
 		graph = new Graph();
-
+/*
 		try {
 			// load up the knowledge base
 			KieServices ks = KieServices.Factory.get();
@@ -73,7 +74,7 @@ public class RouteDetermination {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-
+*/
 		applicationContext = new ClassPathXmlApplicationContext(
 				"classpath*:Beans.xml");
 
@@ -100,7 +101,7 @@ public class RouteDetermination {
 	 */
 	public void createKnowledgeBase(int eventId) {
 
-		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, "RouteDeterminationLog");
+//		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, "RouteDeterminationLog");
 
 		StrategicEvent strategicEvent = eventImpl.getStrategicEvent(eventId);
 
@@ -109,7 +110,7 @@ public class RouteDetermination {
 
 		// Add to knowledge base
 		for (NetworkNode networkNode : networkNodeList) {
-			kSession.insert(networkNode);
+//			kSession.insert(networkNode);
 			graph.addNode(networkNode);
 		}
 
@@ -119,7 +120,7 @@ public class RouteDetermination {
 
 		// Add to knowledge base
 		for (NetworkLink networkLink : networkLinkList) {
-			kSession.insert(networkLink);
+//			kSession.insert(networkLink);
 
 			graph.setNetworkLink(
 					networkNodeMap.get(networkLink.getFromNodeIdentifier()),
@@ -140,12 +141,10 @@ public class RouteDetermination {
 			graph.setToNetworkLinkMap(toNetworkLinkMap);
 			graph.setRootNode(affectedNodeStart);
 			graph.setTargetNode(affectedNodeEnd);
-			graph.dfs();
+			addRouteToStrategicEvent(graph.dfs(), eventId);
+			graph.closeKieSession ();
 		}
-		
-		// Get travel time
-		log.debug("DefaultTravel Time = " + getTravelTimeForRoute(defaultRoute, "17-JAN-2014 00.00.27"));
-		log.debug("Alt Route Travel Time = " + getTravelTimeForRoute(graph.getAlernativeRoute(), "17-JAN-2014 00.00.27"));
+
 		log.debug("- - - END - - -");
 		
 //		kSession.fireAllRules();
@@ -153,8 +152,8 @@ public class RouteDetermination {
 
 	public void endSession() {
 		
-		kSession.dispose(); // Statefull sessions *must* be properly disposed
-		logger.close();
+//		kSession.dispose(); // Statefull sessions *must* be properly disposed
+//		logger.close();
 	}
 
 	/**
@@ -262,5 +261,33 @@ public class RouteDetermination {
 		}
 		
 		return new Float(routeTime);
+	}
+	
+
+	/**
+	 * @param alernativeRoute
+	 * @param eventId
+	 */
+	private void addRouteToStrategicEvent (ArrayList<Integer> alernativeRoute, int eventId) {
+		
+		log.debug("DefaultTravel Time = " + getTravelTimeForRoute(defaultRoute, "17-JAN-2014 00.00.27"));
+		log.debug("Alt Route Travel Time = " + getTravelTimeForRoute(alernativeRoute, "17-JAN-2014 00.00.27"));
+		
+		Route routeDefault = new Route();
+		Route routeAlternative = new Route();
+		
+		if (alernativeRoute.isEmpty()) {
+			routeAlternative.setLink_list(null);
+			routeAlternative.setEvent_id(eventId);
+			routeAlternative.setIs_valid(0);
+		} else {
+			routeAlternative.setLink_list(alernativeRoute);
+			routeAlternative.setEvent_id(eventId);
+			routeAlternative.setIs_valid(1);
+		}
+		
+		routeDefault.setLink_list(this.defaultRoute);
+		routeDefault.setEvent_id(eventId);
+		routeDefault.setIs_valid(1);	
 	}
 }
