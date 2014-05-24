@@ -36,7 +36,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class RouteDetermination {
 
-//	private KieSession kSession;
 	private Graph graph;
 	private HashMap<Integer, NetworkLink> networkLinkMap;
 	private HashMap<String, NetworkLink> toNetworkLinkMap;
@@ -46,7 +45,6 @@ public class RouteDetermination {
 
 	private ApplicationContext applicationContext;
 	private SqlLookupBean sqlLookupBean;
-	private KnowledgeRuntimeLogger logger;
 	
 	private static final int MAX_LINK_EXTENT = 20;
 	
@@ -59,22 +57,8 @@ public class RouteDetermination {
 
 	public RouteDetermination() {
 
-//		kSession = null;
 		graph = new Graph();
-/*
-		try {
-			// load up the knowledge base
-			KieServices ks = KieServices.Factory.get();
-			KieContainer kContainer = ks.getKieClasspathContainer();
-			kSession = kContainer.newKieSession("ksession-route-rules");
 
-			if (kSession == null) {
-				log.debug("kSession is null");
-			}
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-*/
 		applicationContext = new ClassPathXmlApplicationContext(
 				"classpath*:Beans.xml");
 
@@ -99,11 +83,7 @@ public class RouteDetermination {
 	/**
 	 * Sets up knowledge base and performs a depth based search to determine alternative routes to avoid the event.
 	 */
-	public void createKnowledgeBase(int eventId) {
-
-//		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, "RouteDeterminationLog");
-
-		StrategicEvent strategicEvent = eventImpl.getStrategicEvent(eventId);
+	public StrategicEvent evaluateRoute (StrategicEvent strategicEvent) {
 
 		// Get all network nodes
 		List<NetworkNode> networkNodeList = networkNodeImpl.listNetworkNode();
@@ -141,19 +121,13 @@ public class RouteDetermination {
 			graph.setToNetworkLinkMap(toNetworkLinkMap);
 			graph.setRootNode(affectedNodeStart);
 			graph.setTargetNode(affectedNodeEnd);
-			addRouteToStrategicEvent(graph.dfs(), eventId);
+			strategicEvent = addRouteToStrategicEvent(graph.dfs(), strategicEvent);
 			graph.closeKieSession ();
 		}
 
 		log.debug("- - - END - - -");
 		
-//		kSession.fireAllRules();
-	}
-
-	public void endSession() {
-		
-//		kSession.dispose(); // Statefull sessions *must* be properly disposed
-//		logger.close();
+		return strategicEvent;
 	}
 
 	/**
@@ -187,7 +161,7 @@ public class RouteDetermination {
 			} else {
 				findLink = false;
 			}
-//			System.out.println("Cnt=" + count + ", findLink=" + findLink);
+//			log.debug("Cnt=" + count + ", findLink=" + findLink);
 			count++;
 			// Stop endless looping
 			if (count >= MAX_LINK_EXTENT) {
@@ -268,7 +242,7 @@ public class RouteDetermination {
 	 * @param alernativeRoute
 	 * @param eventId
 	 */
-	private void addRouteToStrategicEvent (ArrayList<Integer> alernativeRoute, int eventId) {
+	private StrategicEvent addRouteToStrategicEvent (ArrayList<Integer> alernativeRoute, StrategicEvent strategicEvent) {
 		
 		log.debug("DefaultTravel Time = " + getTravelTimeForRoute(defaultRoute, "17-JAN-2014 00.00.27"));
 		log.debug("Alt Route Travel Time = " + getTravelTimeForRoute(alernativeRoute, "17-JAN-2014 00.00.27"));
@@ -278,16 +252,21 @@ public class RouteDetermination {
 		
 		if (alernativeRoute.isEmpty()) {
 			routeAlternative.setLink_list(null);
-			routeAlternative.setEvent_id(eventId);
+//			routeAlternative.setEvent_id(eventId);
 			routeAlternative.setIs_valid(0);
 		} else {
 			routeAlternative.setLink_list(alernativeRoute);
-			routeAlternative.setEvent_id(eventId);
+//			routeAlternative.setEvent_id(eventId);
 			routeAlternative.setIs_valid(1);
 		}
 		
 		routeDefault.setLink_list(this.defaultRoute);
-		routeDefault.setEvent_id(eventId);
-		routeDefault.setIs_valid(1);	
+//		routeDefault.setEvent_id(eventId);
+		routeDefault.setIs_valid(1);
+		
+		strategicEvent.setAlternativeRoute(routeAlternative);
+		strategicEvent.setDefaultRoute(routeDefault);
+		
+		return strategicEvent;
 	}
 }

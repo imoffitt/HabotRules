@@ -4,15 +4,12 @@ package info.habot.tm470.drools
 // Set the Dialect to  'mvel' 
 dialect "mvel"
 
-//list any import classes here.
-// Import the various objects from the calling Java Class (ShoppingExample) ...
+
+// Import the various objects from the calling Java Class
 import info.habot.tm470.dao.pojo.FusedSensorData
 import info.habot.tm470.dao.pojo.NetworkLink
 import info.habot.tm470.dao.pojo.NetworkNode
 import info.habot.tm470.dao.pojo.StrategicEvent
-
-global int MAX_NODES 
-global float MAX_DISTANCE_ALONG
 
 //declare any global variables here
 

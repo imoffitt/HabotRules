@@ -44,11 +44,9 @@ public class EventSuitability {
 		}
 	}
 
-	public void createKnowledgeBase () {
+	public StrategicEvent evaluateStrategicEvent (StrategicEvent strategicEvent) {
 		
-//		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, "EventSuitabilityLog");
-		
-		StrategicEvent strategicEvent = new StrategicEvent();
+		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, "EventSuitabilityLog");
 		
 		strategicEvent.setEvent_id(1);
 		strategicEvent.setEvent_type("Accident");
@@ -64,12 +62,15 @@ public class EventSuitability {
 		kSession.insert( networkLink );
 
 		kSession.fireAllRules();
+		
+		endSession ();
+		
+		return strategicEvent;
 	}
 	
-	public void endSession () {
+	private void endSession () {
 		
-		kSession.fireAllRules();
 		kSession.dispose();             // Statefull sessions *must* be properly disposed of...
-//		logger.close();
+		logger.close();
 	}
 }
