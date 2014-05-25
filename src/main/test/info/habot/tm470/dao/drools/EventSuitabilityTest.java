@@ -11,6 +11,8 @@ public class EventSuitabilityTest {
 		
 		EventSuitability eventSuitability = new EventSuitability();
 		strategicEvent = eventSuitability.evaluateStrategicEvent(strategicEvent);
+		
+		System.out.println (eventSuitability.getExplantion());
 
 	}
 

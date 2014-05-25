@@ -5,6 +5,9 @@ import info.habot.tm470.dao.pojo.NetworkLink;
 import info.habot.tm470.dao.pojo.NetworkNode;
 import info.habot.tm470.dao.pojo.StrategicEvent;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -14,6 +17,9 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
+import org.kie.internal.event.KnowledgeRuntimeEventManager;
+import org.kie.internal.logger.KnowledgeRuntimeLogger;
+import org.kie.internal.logger.KnowledgeRuntimeLoggerFactory;
 
 public class Graph {
 	
@@ -34,7 +40,11 @@ public class Graph {
 	private static final int MAX_NODES = 1500;
 	private static final float MAX_DISTANCE_ALONG = 10000;
 	
+	private KnowledgeRuntimeLogger logger;
+	private static final String KIE_LOG_FILENAME = "RouteDeterminationLog";
+	
 	private ArrayList<Integer> alernativeRoute;
+	private String kie_log_file;
 
 	private int nodeCount;
 	private Double distanceAlong;
@@ -63,6 +73,8 @@ public class Graph {
 						MAX_NODES );
 				kSession.setGlobal( "MAX_DISTANCE_ALONG",
 						MAX_DISTANCE_ALONG );
+				
+				logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, KIE_LOG_FILENAME);
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -238,6 +250,32 @@ public class Graph {
 		System.out.println(n.getNodeId() + " " + locationName);
 	}
 
+	/**
+	 * @return kie log file
+	 */
+	public boolean readKieLogFile() {
+	   kie_log_file = null;
+	   File file = new File(KIE_LOG_FILENAME + ".log"); //for ex foo.txt
+	   try {
+	       FileReader reader = new FileReader(file);
+	       char[] chars = new char[(int) file.length()];
+	       reader.read(chars);
+	       kie_log_file = new String(chars);
+	       reader.close();
+	       
+	       file.delete();  // Once we have the data dlete the physical file as it is not needed.
+	       
+	   } catch (IOException e) {
+	       e.printStackTrace();
+	       return false;
+	   }
+	   return true;
+	}
+
+	public String getExplantion() {
+		return kie_log_file;
+	}
+	
 	public HashMap<Integer, NetworkLink> getNetworkLinkMap() {
 		return networkLinkMap;
 	}
@@ -256,8 +294,17 @@ public class Graph {
 	public StrategicEvent getStrategicEvent() {
 		return strategicEvent;
 	}
-	
+	public String getExplanation() {
+		return kie_log_file;
+	}
+
 	public void closeKieSession () {
 		kSession.dispose(); // Statefull sessions *must* be properly disposed
+		
+		logger.close();
+		
+		if (readKieLogFile()) {
+			kie_log_file = "<explanation>" + kie_log_file + "</explanation>";
+		}
 	}
 }
