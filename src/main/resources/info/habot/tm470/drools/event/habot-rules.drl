@@ -52,7 +52,7 @@ rule "StrategicEvent is an Information event (HABOT-01-04)"
 	salience 8
     when
     	// INFORMATION_THRESHOLD is 40. Anything above this is considered an information event
-        $se : StrategicEvent( type_suitable == true, severity_suitable == false, capacity_reduction > INFORMATION_THRESHOLD )
+        $se : StrategicEvent( type_suitable == true, severity_suitable == false, capacity_reduction > INFORMATION_THRESHOLD, event_sub_type != SUBTYPE_INFORMATION )
     then
         modify( $se ) {
 			setSeverity_suitable( true ),
@@ -64,7 +64,7 @@ rule "StrategicEvent is an Diversion event (HABOT-01-05)"
 	salience 8
     when
     	// DIVERSION_THRESHOLD is 60. Anything above this should trigger an alternative route
-        $se : StrategicEvent( type_suitable == true, severity_suitable == true, capacity_reduction > DIVERSION_THRESHOLD)
+        $se : StrategicEvent( type_suitable == true, severity_suitable == true, capacity_reduction > DIVERSION_THRESHOLD, event_sub_type != SUBTYPE_DIVERSION)
     then
          modify( $se ) {
 			setEvent_sub_type ($se.SUBTYPE_DIVERSION)
