@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import info.habot.tm470.dao.EventImpl;
 import info.habot.tm470.dao.FusedSensorDataImpl;
 import info.habot.tm470.dao.NetworkLinkImpl;
 import info.habot.tm470.dao.NetworkNodeImpl;
@@ -20,12 +19,6 @@ import info.habot.tm470.dao.pojo.VMSUnitEquipment;
 import info.habot.tm470.dfs.Graph;
 
 import org.apache.log4j.Logger;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
-import org.kie.internal.event.KnowledgeRuntimeEventManager;
-import org.kie.internal.logger.KnowledgeRuntimeLogger;
-import org.kie.internal.logger.KnowledgeRuntimeLoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -53,7 +46,6 @@ public class RouteDetermination {
 
 	private NetworkNodeImpl networkNodeImpl;
 	private NetworkLinkImpl networkLinkImpl;
-	private EventImpl eventImpl;
 	private FusedSensorDataImpl fusedSensorDataImpl;
 	private VMSUnitEquipmentImpl vMSUnitEquipmentImpl;
 
@@ -78,7 +70,6 @@ public class RouteDetermination {
 				.getBean("networkNodeImpl");
 		networkLinkImpl = (NetworkLinkImpl) applicationContext
 				.getBean("networkLinkImpl");
-		eventImpl = (EventImpl) applicationContext.getBean("eventImpl");
 		fusedSensorDataImpl = (FusedSensorDataImpl) applicationContext
 				.getBean("fusedSensorImpl");
 		vMSUnitEquipmentImpl = (VMSUnitEquipmentImpl) applicationContext
@@ -338,9 +329,9 @@ public class RouteDetermination {
 			ArrayList<Integer> alernativeRoute, StrategicEvent strategicEvent) {
 
 		log.debug("DefaultTravel Time = "
-				+ getTravelTimeForRoute(defaultRoute, "17-JAN-2014 00.00.27"));
+				+ getTravelTimeForRoute(defaultRoute, strategicEvent.getDateCreated()));
 		log.debug("Alt Route Travel Time = "
-				+ getTravelTimeForRoute(alernativeRoute, "17-JAN-2014 00.00.27"));
+				+ getTravelTimeForRoute(alernativeRoute, strategicEvent.getDateCreated()));
 
 		Route routeDefault = new Route();
 		Route routeAlternative = new Route();

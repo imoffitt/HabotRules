@@ -7,7 +7,10 @@ public class EventSuitabilityTest {
 	public static void main(String[] args) {
 		
 		StrategicEvent strategicEvent = new StrategicEvent();
-		strategicEvent.setLink_id(125000501);
+		strategicEvent.setLink_id(111036202);
+		strategicEvent.setCapacity_reduction(70);
+		strategicEvent.setEvent_type("Accident");
+		strategicEvent.setEvent_id(1);
 		
 		EventSuitability eventSuitability = new EventSuitability();
 		strategicEvent = eventSuitability.evaluateStrategicEvent(strategicEvent);

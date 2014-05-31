@@ -54,11 +54,6 @@ public class EventSuitability {
 		
 		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, KIE_LOG_FILENAME);
 		
-		strategicEvent.setEvent_id(1);
-		strategicEvent.setEvent_type("Accident");
-		strategicEvent.setLink_id(111036202);
-		strategicEvent.setCapacity_reduction(60);
-		
 		NetworkLink networkLink = new NetworkLink();
 		networkLink.setLinkId(strategicEvent.getLink_id());
 		networkLink.setLocationName("M6 southbound within J15");
@@ -66,6 +61,13 @@ public class EventSuitability {
 		
 		kSession.insert( strategicEvent );
 		kSession.insert( networkLink );
+		
+		kSession.setGlobal( "NORMAL_THRESHOLD",
+				60 );
+		kSession.setGlobal( "INFORMATION_THRESHOLD",
+				40 );
+		kSession.setGlobal( "DIVERSION_THRESHOLD",
+				60 );
 
 		kSession.fireAllRules();
 		
