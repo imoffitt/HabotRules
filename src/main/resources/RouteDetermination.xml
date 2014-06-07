@@ -1,0 +1,682 @@
+<isAlternativeValid>1</isAlternativeValid>
+<AlternativeRoute>
+   <travelTime>2028.0</travelTime>
+   <AlternativeRouteExplantion linkId="110001602">
+      <locationName>roundabout at M6 J19/A556</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>128.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100020</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100016</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110006401">
+      <locationName>M6 southbound between J20 and J19</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>6450.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100047</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100064</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110001602">
+      <locationName>roundabout at M6 J19/A556</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>128.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100020</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100016</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110002001">
+      <locationName>roundabout at M6 J19/A556</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>171.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100017</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100020</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110001701">
+      <locationName>M6 J19 northbound exit</locationName>
+      <carriageway>exitSlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>344.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100060</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100017</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110006002">
+      <locationName>M6 northbound between J18 and J19</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1054.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230090</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100060</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123009002">
+      <locationName>M6 northbound at the Knutsford services slip road between J18 and J19</locationName>
+      <carriageway>entrySlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>165.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230094</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230090</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123008901">
+      <locationName>M6 northbound between J18 and J19</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>10716.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100053</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230089</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123009301">
+      <locationName>M6 northbound at the Knutsford services slip road between J18 and J19</locationName>
+      <carriageway>exitSlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>124.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230089</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230093</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005302">
+      <locationName>M6 J18 northbound access</locationName>
+      <carriageway>entrySlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>443.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100010</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100053</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005401">
+      <locationName>M6 northbound between J17 and J18</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>5432.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100063</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100054</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110006303">
+      <locationName>M6 J17 northbound access</locationName>
+      <carriageway>entrySlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>229.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1210165</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100063</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005702">
+      <locationName>M6 northbound between J16 and J17</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1180.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230082</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100057</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123008202">
+      <locationName>M6 northbound at the Sandbach services slip road between J16 and J17</locationName>
+      <carriageway>entrySlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>124.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230086</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230082</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123008101">
+      <locationName>M6 northbound between J16 and J17</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>7377.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100050</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230081</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123008501">
+      <locationName>M6 northbound at the Sandbach services slip road between J16 and J17</locationName>
+      <carriageway>exitSlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>83.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230081</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230085</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005002">
+      <locationName>M6 northbound within J16</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>971.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1110355</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100050</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110000701">
+      <locationName>roundabout at M6 J16/A500</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>142.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A500</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1990905</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100007</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="199090402">
+      <locationName>roundabout at M6 J16/A500</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>21.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A500</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100007</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1990904</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110000801">
+      <locationName>M6 J16 southbound exit</locationName>
+      <carriageway>exitSlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>340.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100051</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100008</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005102">
+      <locationName>M6 southbound between J17 and J16</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>7465.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230084</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100051</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123008402">
+      <locationName>M6 southbound at the Sandbach services slip road between J17 and J16</locationName>
+      <carriageway>entrySlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>88.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230088</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230084</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123008301">
+      <locationName>M6 southbound between J17 and J16</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1189.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100056</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230083</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="123008701">
+      <locationName>M6 southbound at the Sandbach services slip road between J17 and J16</locationName>
+      <carriageway>exitSlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>154.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230083</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1230087</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005602">
+      <locationName>M6 J17 southbound access</locationName>
+      <carriageway>entrySlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>349.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100014</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100056</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005801">
+      <locationName>M6 southbound between J18 and J17</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>5390.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100055</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100058</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="121016601">
+      <locationName>M6 J17 southbound exit</locationName>
+      <carriageway>exitSlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>242.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100058</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1210166</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005502">
+      <locationName>M6 J18 southbound access</locationName>
+      <carriageway>entrySlipRoad</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>278.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100012</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100055</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+   <AlternativeRouteExplantion linkId="110005202">
+      <locationName>M6 southbound between J19 and J18</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>10710.0</lengthAffected>
+      <directionBound>southbound</directionBound>
+      <roadNumber>M6</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1230092</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100052</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </AlternativeRouteExplantion>
+</AlternativeRoute>
+<DefaultRoute>
+   <travelTime>562.0</travelTime>
+   <DefaultRouteExplantion linkId="125000401">
+      <locationName>A556 northbound within the A50 junction</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>68.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1250003</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1250004</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="125000301">
+      <locationName>A556 northbound between M6 and A50</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1409.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100021</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1250003</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="110002101">
+      <locationName>A556 northbound between M6 and A50</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>679.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100019</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100021</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="110001901">
+      <locationName>roundabout at M6 J19/A556</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>37.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100016</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100019</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="125000401">
+      <locationName>A556 northbound within the A50 junction</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>68.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1250003</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1250004</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="125000301">
+      <locationName>A556 northbound between M6 and A50</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1409.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100021</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1250003</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="110002101">
+      <locationName>A556 northbound between M6 and A50</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>679.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100019</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100021</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="110001901">
+      <locationName>roundabout at M6 J19/A556</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>37.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1100016</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1100019</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="125000601">
+      <locationName>A556 northbound between A5034 and M56/A56</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1249.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1250005</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1250006</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="199089603">
+      <locationName>A556 northbound between A5034 and M56/A56</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>373.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1250006</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1990896</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="199089201">
+      <locationName>A556 northbound between A5034 and M56/A56</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1326.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1990896</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1990892</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="199089402">
+      <locationName>roundabout at M56 J7/A556/A56</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>304.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1990892</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1990894</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="125000601">
+      <locationName>A556 northbound between A5034 and M56/A56</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1249.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1250005</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1250006</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="199089603">
+      <locationName>A556 northbound between A5034 and M56/A56</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>373.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1250006</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1990896</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="199089201">
+      <locationName>A556 northbound between A5034 and M56/A56</locationName>
+      <carriageway>mainCarriageway</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>1326.0</lengthAffected>
+      <directionBound>northbound</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1990896</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1990892</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+   <DefaultRouteExplantion linkId="199089402">
+      <locationName>roundabout at M56 J7/A556/A56</locationName>
+      <carriageway>roundabout</carriageway>
+      <lane>allLanesCompleteCarriageway</lane>
+      <lengthAffected>304.0</lengthAffected>
+      <directionBound>other</directionBound>
+      <roadNumber>A556</roadNumber>
+      <linearElementNature>road</linearElementNature>
+      <fromDistanceAlong>0.0</fromDistanceAlong>
+      <fromNodeIdentifier>1990892</fromNodeIdentifier>
+      <fromNodeType>roadNode</fromNodeType>
+      <toDistanceAlong>0.0</toDistanceAlong>
+      <toNodeIdentifier>1990894</toNodeIdentifier>
+      <toNodeType>roadNode</toNodeType>
+   </DefaultRouteExplantion>
+</DefaultRoute>

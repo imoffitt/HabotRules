@@ -8,9 +8,15 @@ public class RouteDeterminationTest {
 
 		StrategicEvent strategicEvent = new StrategicEvent();
 		strategicEvent.setLink_id(125000501);
-		
+		strategicEvent.setDateCreated("2014-01-17 00:00:35");
+
 		RouteDetermination routeDetermination = new RouteDetermination();
-		routeDetermination.evaluateRoute(strategicEvent);
+
+		try {
+			routeDetermination.evaluateRoute(strategicEvent);
+		} catch (Exception ex) {
+			System.out.println(ex.getStackTrace());
+		}
 	}
 
 }

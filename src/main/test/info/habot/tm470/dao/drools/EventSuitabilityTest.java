@@ -13,10 +13,14 @@ public class EventSuitabilityTest {
 		strategicEvent.setEvent_id(1);
 		
 		EventSuitability eventSuitability = new EventSuitability();
-		strategicEvent = eventSuitability.evaluateStrategicEvent(strategicEvent);
+		try {
+			strategicEvent = eventSuitability.evaluateStrategicEvent(strategicEvent);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		System.out.println (eventSuitability.getExplantion());
-
 	}
 
 }

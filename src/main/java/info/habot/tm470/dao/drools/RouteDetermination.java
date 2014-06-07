@@ -1,5 +1,10 @@
 package info.habot.tm470.dao.drools;
 
+import java.awt.geom.Point2D;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,8 +84,11 @@ public class RouteDetermination {
 	/**
 	 * Sets up knowledge base and performs a depth based search to determine
 	 * alternative routes to avoid the event.
+	 * 
+	 * @throws Exception
 	 */
-	public StrategicEvent evaluateRoute(StrategicEvent strategicEvent) {
+	public StrategicEvent evaluateRoute(StrategicEvent strategicEvent)
+			throws Exception {
 
 		// Get all network nodes
 		List<NetworkNode> networkNodeList = networkNodeImpl.listNetworkNode();
@@ -94,6 +102,8 @@ public class RouteDetermination {
 		// Get all network links
 		List<NetworkLink> networkLinkList = networkLinkImpl.listNetworkLink();
 		networkNodeMap = networkNodeImpl.getNetworkNodes();
+
+		log.debug("networkLinkList.size()=" + networkLinkList.size());
 
 		// Add to knowledge base
 		for (NetworkLink networkLink : networkLinkList) {
@@ -111,18 +121,37 @@ public class RouteDetermination {
 
 		NetworkNode affectedNodeStart = getStartOfAffectedLink(strategicEvent
 				.getLink_id());
+
+		log.debug("affectedNodeStart="
+				+ getStartOfAffectedLink(strategicEvent.getLink_id()));
+
 		NetworkNode affectedNodeEnd = getEndOfAffectedLink(strategicEvent
 				.getLink_id());
+
+		log.debug("affectedNodeEnd="
+				+ getEndOfAffectedLink(strategicEvent.getLink_id()));
 
 		if ((affectedNodeStart != null) && (affectedNodeEnd != null)) {
 			graph.setNetworkLinkMap(networkLinkMap);
 			graph.setToNetworkLinkMap(toNetworkLinkMap);
 			graph.setRootNode(affectedNodeStart);
 			graph.setTargetNode(affectedNodeEnd);
+
+			log.debug("strategicEvent=" + strategicEvent.toString());
+
+			// Exclude nodes from depth based search if they are part of the
+			// default route
+			for (Integer linkId : this.defaultRoute) {
+				graph.excludeNode(networkNodeMap.get(networkLinkMap.get(linkId)
+						.getToNodeIdentifier()));
+			}
+
 			strategicEvent = addRouteToStrategicEvent(graph.dfs(),
 					strategicEvent);
 
-			VMSUnitEquipment vMSUnitEquipment = getDecisionPointVMS(strategicEvent, affectedNodeStart);
+			VMSUnitEquipment vMSUnitEquipment = getDecisionPointVMS(
+					strategicEvent, affectedNodeStart);
+
 			if (null != vMSUnitEquipment) {
 				strategicEvent.setvMSUnitEquipment(vMSUnitEquipment);
 			}
@@ -209,7 +238,7 @@ public class RouteDetermination {
 			} else {
 				findLink = false;
 			}
-			// System.out.println("Cnt=" + count + ", findLink=" + findLink);
+
 			count++;
 			// Stop endless looping
 			if (count >= MAX_LINK_EXTENT) {
@@ -221,7 +250,8 @@ public class RouteDetermination {
 	}
 
 	/**
-	 * Finds the link that contains a VMS downstream of the start of the decision point.
+	 * Finds the link that contains a VMS downstream of the start of the
+	 * decision point.
 	 * 
 	 * @param strategicEvent
 	 * @param affectedNodeStart
@@ -240,9 +270,9 @@ public class RouteDetermination {
 			ArrayList<Map<String, Object>> lstLinksAttached = sqlLookupBean
 					.getValue("select linkId, fromNodeIdentifier, toNodeIdentifier from Network_Links where fromNodeIdentifier="
 							+ fromNode);
-			
-//			log.debug("SQL=select linkId, fromNodeIdentifier, toNodeIdentifier from Network_Links where fromNodeIdentifier="
-//							+ fromNode);
+
+			// log.debug("SQL=select linkId, fromNodeIdentifier, toNodeIdentifier from Network_Links where fromNodeIdentifier="
+			// + fromNode);
 
 			Map<String, Object> mapLinksAffected = lstLinksAttached.get(0);
 			Integer link = (Integer) mapLinksAffected.get("toNodeIdentifier");
@@ -278,7 +308,7 @@ public class RouteDetermination {
 					&& isLinkInDefaultRoute == false) {
 				List<VMSUnitEquipment> lstVMSUnits = vMSUnitEquipmentImpl
 						.getVMSUnitOnLink(linkId);
-				
+
 				log.debug("looking for VMS on link : " + linkId);
 				if (!lstVMSUnits.isEmpty()) {
 					findVMS = true;
@@ -288,7 +318,7 @@ public class RouteDetermination {
 				}
 			}
 
-			log.debug("Cnt=" + count + ", findVMS=" + findVMS);
+			// log.debug("Cnt=" + count + ", findVMS=" + findVMS);
 			count++;
 			// Stop endless looping
 			if (count >= MAX_LINK_EXTENT) {
@@ -328,30 +358,38 @@ public class RouteDetermination {
 	private StrategicEvent addRouteToStrategicEvent(
 			ArrayList<Integer> alernativeRoute, StrategicEvent strategicEvent) {
 
-		log.debug("DefaultTravel Time = "
-				+ getTravelTimeForRoute(defaultRoute, strategicEvent.getDateCreated()));
-		log.debug("Alt Route Travel Time = "
-				+ getTravelTimeForRoute(alernativeRoute, strategicEvent.getDateCreated()));
+		log.debug("strategicEvent.getDateCreated="
+				+ strategicEvent.getDateCreated());
 
 		Route routeDefault = new Route();
 		Route routeAlternative = new Route();
+		routeAlternative.setDateCreated(strategicEvent.getDateCreated());
 
 		if (alernativeRoute.isEmpty()) {
 			routeAlternative.setLink_list(null);
 			// routeAlternative.setEvent_id(eventId);
+			routeAlternative.setTravelTime(0);
 			routeAlternative.setIs_valid(0);
 		} else {
 			routeAlternative.setLink_list(alernativeRoute);
 			// routeAlternative.setEvent_id(eventId);
+			routeAlternative.setTravelTime(getTravelTimeForRoute(
+					alernativeRoute, strategicEvent.getDateCreated()));
 			routeAlternative.setIs_valid(1);
 		}
 
 		routeDefault.setLink_list(this.defaultRoute);
 		// routeDefault.setEvent_id(eventId);
 		routeDefault.setIs_valid(1);
+		routeDefault.setTravelTime(getTravelTimeForRoute(defaultRoute,
+				strategicEvent.getDateCreated()));
+		routeDefault.setDateCreated(strategicEvent.getDateCreated());
 
 		strategicEvent.setAlternativeRoute(routeAlternative);
 		strategicEvent.setDefaultRoute(routeDefault);
+
+		log.debug("DefaultTravel Time = " + routeDefault.getTravelTime());
+		log.debug("Alt Route Travel Time = " + routeAlternative.getTravelTime());
 
 		return strategicEvent;
 	}
@@ -366,26 +404,29 @@ public class RouteDetermination {
 	/**
 	 * @return stringBuffer containing the alternative route
 	 */
-	public StringBuffer getAlternativeRouteExplantion(Route alternativeRoute) {
+	public StringBuffer getAlternativeRouteExplantion(Route theRoute) {
 
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("<AlternativeRouteExplantion>");
+		stringBuffer.append("<travelTime> " + theRoute.getTravelTime()
+				+ "</travelTime>");
 
-		for (Integer LinkId : alternativeRoute.getLink_list()) {
+		for (Integer LinkId : theRoute.getLink_list()) {
 
 			NetworkLink networkLink = networkLinkMap.get(LinkId);
 
 			if (networkLink != null) {
-				stringBuffer.append("<LinkId>" + LinkId + "</LinkId>"
-						+ "<locationName>" + networkLink.getLocationName()
-						+ "</locationName>" + "<carriageway>"
-						+ networkLink.getCarriageway() + "</carriageway>"
-						+ "<lane>" + networkLink.getLane() + "</lane>"
-						+ "<lengthAffected>" + networkLink.getLengthAffected()
-						+ "</lengthAffected>" + "<directionBound>"
-						+ networkLink.getDirectionBound() + "</directionBound>"
-						+ "<roadNumber>" + networkLink.getRoadNumber()
-						+ "</roadNumber>" + "<linearElementNature>"
+				stringBuffer.append("<AlternativeRouteExplantion linkId='"
+						+ LinkId + "'>");
+				stringBuffer.append("<locationName>"
+						+ networkLink.getLocationName() + "</locationName>"
+						+ "<carriageway>" + networkLink.getCarriageway()
+						+ "</carriageway>" + "<lane>" + networkLink.getLane()
+						+ "</lane>" + "<lengthAffected>"
+						+ networkLink.getLengthAffected() + "</lengthAffected>"
+						+ "<directionBound>" + networkLink.getDirectionBound()
+						+ "</directionBound>" + "<roadNumber>"
+						+ networkLink.getRoadNumber() + "</roadNumber>"
+						+ "<linearElementNature>"
 						+ networkLink.getLinearElementNature()
 						+ "</linearElementNature>" + "<fromDistanceAlong>"
 						+ networkLink.getFromDistanceAlong()
@@ -399,9 +440,9 @@ public class RouteDetermination {
 						+ networkLink.getToNodeIdentifier()
 						+ "</toNodeIdentifier>" + "<toNodeType>"
 						+ networkLink.getToNodeType() + "</toNodeType>");
+				stringBuffer.append("</AlternativeRouteExplantion>");
 			}
 		}
-		stringBuffer.append("</AlternativeRouteExplantion>");
 
 		return stringBuffer;
 	}
@@ -409,26 +450,29 @@ public class RouteDetermination {
 	/**
 	 * @return stringBuffer containing the default route
 	 */
-	public StringBuffer getDefaultRouteExplantion(Route defaultRoute) {
+	public StringBuffer getDefaultRouteExplantion(Route theRoute) {
 
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("<DefaultRouteExplantion>");
+		stringBuffer.append("<travelTime> " + theRoute.getTravelTime()
+				+ "</travelTime>");
 
-		for (Integer LinkId : defaultRoute.getLink_list()) {
+		for (Integer LinkId : theRoute.getLink_list()) {
 
 			NetworkLink networkLink = networkLinkMap.get(LinkId);
 
 			if (networkLink != null) {
-				stringBuffer.append("<LinkId>" + LinkId + "</LinkId>"
-						+ "<locationName>" + networkLink.getLocationName()
-						+ "</locationName>" + "<carriageway>"
-						+ networkLink.getCarriageway() + "</carriageway>"
-						+ "<lane>" + networkLink.getLane() + "</lane>"
-						+ "<lengthAffected>" + networkLink.getLengthAffected()
-						+ "</lengthAffected>" + "<directionBound>"
-						+ networkLink.getDirectionBound() + "</directionBound>"
-						+ "<roadNumber>" + networkLink.getRoadNumber()
-						+ "</roadNumber>" + "<linearElementNature>"
+				stringBuffer.append("<DefaultRouteExplantion linkId='" + LinkId
+						+ "'>");
+				stringBuffer.append("<locationName>"
+						+ networkLink.getLocationName() + "</locationName>"
+						+ "<carriageway>" + networkLink.getCarriageway()
+						+ "</carriageway>" + "<lane>" + networkLink.getLane()
+						+ "</lane>" + "<lengthAffected>"
+						+ networkLink.getLengthAffected() + "</lengthAffected>"
+						+ "<directionBound>" + networkLink.getDirectionBound()
+						+ "</directionBound>" + "<roadNumber>"
+						+ networkLink.getRoadNumber() + "</roadNumber>"
+						+ "<linearElementNature>"
 						+ networkLink.getLinearElementNature()
 						+ "</linearElementNature>" + "<fromDistanceAlong>"
 						+ networkLink.getFromDistanceAlong()
@@ -442,37 +486,144 @@ public class RouteDetermination {
 						+ networkLink.getToNodeIdentifier()
 						+ "</toNodeIdentifier>" + "<toNodeType>"
 						+ networkLink.getToNodeType() + "</toNodeType>");
+				stringBuffer.append("</DefaultRouteExplantion>");
 			}
 		}
-		stringBuffer.append("</DefaultRouteExplantion>");
 
 		return stringBuffer;
 	}
-	
-	public StringBuffer getVMSEquipmentBeforeDecisionPoint (StrategicEvent strategicEvent) {
-		
+
+	public StringBuffer getVMSEquipmentBeforeDecisionPoint(
+			StrategicEvent strategicEvent) {
+
+		/*
+		 * Dummy VMS NTIS_Network_Links 123008901 10414 mainCarriageway
+		 * northbound M6 northbound between J18 and J19
+		 */
+		if (strategicEvent.getvMSUnitEquipment() == null) {
+			VMSUnitEquipment vMSEquipment = new VMSUnitEquipment();
+			Point2D.Double point = new Point2D.Double();
+			point.setLocation(53.2963256835938, -2.39886736869812);
+
+			vMSEquipment.setEquipmentId("CFB613DE81953254E0433CC411ACFD01");
+			vMSEquipment.setLinearElementIdentifier("123008901");
+			vMSEquipment.setLinearElementReferenceModel("NTIS_Network_Links");
+			vMSEquipment.setLocation(point);
+			vMSEquipment.setVmsDescription("3x18 VMS MS3");
+			vMSEquipment.setVmsType("MONOCHROME_GRAPHIC");
+			vMSEquipment.setVmsTypeCode("111");
+			vMSEquipment.setVmsUnitElectronicAddress("024/5/217/012");
+			vMSEquipment.setVmsUnitIdentifier("M6/6877A");
+			vMSEquipment.setDistanceAlong(10414);
+
+			strategicEvent.setvMSUnitEquipment(vMSEquipment);
+		}
+
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("<VMSUnit>");
-		stringBuffer.append("<equipmentId>" + strategicEvent.getvMSUnitEquipment().getEquipmentId()
+
+		stringBuffer.append("<equipmentId>"
+				+ strategicEvent.getvMSUnitEquipment().getEquipmentId()
 				+ "</equipmentId>");
-		stringBuffer.append("<vmsUnitIdentifier>" + strategicEvent.getvMSUnitEquipment().getVmsUnitIdentifier()
+		stringBuffer.append("<vmsUnitIdentifier>"
+				+ strategicEvent.getvMSUnitEquipment().getVmsUnitIdentifier()
 				+ "</vmsUnitIdentifier>");
-		stringBuffer.append("<vmsUnitElectronicAddress>" + strategicEvent.getvMSUnitEquipment().getVmsUnitElectronicAddress()
+		stringBuffer.append("<vmsUnitElectronicAddress>"
+				+ strategicEvent.getvMSUnitEquipment()
+						.getVmsUnitElectronicAddress()
 				+ "</vmsUnitElectronicAddress>");
-		stringBuffer.append("<vmsDescription>" + strategicEvent.getvMSUnitEquipment().getVmsDescription()
+		stringBuffer.append("<vmsDescription>"
+				+ strategicEvent.getvMSUnitEquipment().getVmsDescription()
 				+ "</vmsDescription>");
-		stringBuffer.append("<vmsType>" + strategicEvent.getvMSUnitEquipment().getVmsType()
-				+ "</vmsType>");
-		stringBuffer.append("<vmsTypeCode>" + strategicEvent.getvMSUnitEquipment().getVmsTypeCode()
-				+ "</vmsTypeCode>");
-		stringBuffer.append("<Lattitude>" + strategicEvent.getvMSUnitEquipment().getLocation().getX()
-				+ "</Lattitude>");
-		stringBuffer.append("<Lontitude>" + strategicEvent.getvMSUnitEquipment().getLocation().getY()
-				+ "</Lontitude>");
-		stringBuffer.append("<distanceAlong>" + strategicEvent.getvMSUnitEquipment().getDistanceAlong()
+
+		if (null != strategicEvent.getvMSUnitEquipment().getVmsType()) {
+			stringBuffer.append("<vmsType>"
+					+ strategicEvent.getvMSUnitEquipment().getVmsType()
+					+ "</vmsType>");
+		}
+
+		if (null != strategicEvent.getvMSUnitEquipment().getVmsTypeCode()) {
+			stringBuffer.append("<vmsTypeCode>"
+					+ strategicEvent.getvMSUnitEquipment().getVmsTypeCode()
+					+ "</vmsTypeCode>");
+		}
+
+		if (null != strategicEvent.getvMSUnitEquipment().getLocation()) {
+			stringBuffer.append("<Lattitude>"
+					+ strategicEvent.getvMSUnitEquipment().getLocation().getX()
+					+ "</Lattitude>");
+		}
+
+		if (null != strategicEvent.getvMSUnitEquipment().getLocation()) {
+			stringBuffer.append("<Lontitude>"
+					+ strategicEvent.getvMSUnitEquipment().getLocation().getY()
+					+ "</Lontitude>");
+		}
+
+		stringBuffer.append("<distanceAlong>"
+				+ strategicEvent.getvMSUnitEquipment().getDistanceAlong()
 				+ "</distanceAlong>");
+
+		log.debug("strategicEvent=" + strategicEvent.getLink_id());
+		log.debug("networkLinkMap.size()=" + networkLinkMap.size());
+
+		stringBuffer.append("<MessageLine1>"
+				+ strategicEvent.getEvent_type().toUpperCase()
+				+ "</MessageLine1>");
+		try {
+			stringBuffer.append("<MessageLine2>"
+					+ networkLinkMap.get(strategicEvent.getLink_id())
+							.getRoadNumber() + "</MessageLine2>");
+		} catch (Exception ex) {
+		}
+
+		stringBuffer.append("<MessageLine3>"
+				+ strategicEvent.getEvent_sub_type().toUpperCase()
+				+ "</MessageLine3>");
+
 		stringBuffer.append("</VMSUnit>");
-		
-    	return stringBuffer;
+
+		return stringBuffer;
+	}
+
+	public StringBuffer getDefaultA556XML(StrategicEvent strategicEvent) {
+
+		// Get all network links
+		List<NetworkLink> networkLinkList = networkLinkImpl.listNetworkLink();
+		networkNodeMap = networkNodeImpl.getNetworkNodes();
+
+		log.debug("networkLinkList.size()=" + networkLinkList.size());
+
+		// Add to knowledge base
+		for (NetworkLink networkLink : networkLinkList) {
+			networkLinkMap.put(networkLink.getLinkId(), networkLink);
+			toNetworkLinkMap
+					.put(networkLink.getToNodeIdentifier(), networkLink);
+		}
+
+		StringBuffer stringBuffer = new StringBuffer();
+
+		String newLine = System.getProperty("line.separator", "\n");
+
+		InputStream is = getClass().getResourceAsStream(
+				"/RouteDetermination.xml");
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		String line;
+		try {
+			while ((line = br.readLine()) != null) {
+				stringBuffer.append(line);
+				stringBuffer.append(newLine);
+			}
+
+			br.close();
+			isr.close();
+			is.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return stringBuffer;
 	}
 }

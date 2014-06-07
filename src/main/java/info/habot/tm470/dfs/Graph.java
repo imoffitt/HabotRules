@@ -37,10 +37,10 @@ public class Graph {
 	private StrategicEvent strategicEvent;
 	private HashMap<String, NetworkLink> toNetworkLinkMap;
 
-	private static final int MAX_NODES = 1500;
-	private static final float MAX_DISTANCE_ALONG = 10000;
+	private static final int MAX_NODES = 15;
+	private static final float MAX_DISTANCE_ALONG = 15000;
 	
-	private KnowledgeRuntimeLogger logger;
+//	private KnowledgeRuntimeLogger logger;
 	private static final String KIE_LOG_FILENAME = "RouteDeterminationLog";
 	
 	private ArrayList<Integer> alernativeRoute;
@@ -74,7 +74,7 @@ public class Graph {
 				kSession.setGlobal( "MAX_DISTANCE_ALONG",
 						MAX_DISTANCE_ALONG );
 				
-				logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, KIE_LOG_FILENAME);
+//				logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, KIE_LOG_FILENAME);
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -98,7 +98,7 @@ public class Graph {
 	}
 
 	// This method will be called to make connect two nodes
-	public void connectNode(NetworkNode start, NetworkNode end, int linkId) {
+	public void connectNode(NetworkNode start, NetworkNode end, int linkId) throws Exception {
 		if (adjMatrix == null) {
 			size = nodes.size();
 			adjMatrix = new float[size][size];
@@ -112,7 +112,7 @@ public class Graph {
 	}
 
 	public void setNetworkLink(NetworkNode start, NetworkNode end,
-			NetworkLink networkLink) {
+			NetworkLink networkLink) throws Exception {
 		distanceBetweenNodes.put((start.getNodeId() + "/" + end.getNodeId()),
 				networkLink);
 		connectNode(start, end, networkLink.getLinkId());
@@ -136,6 +136,16 @@ public class Graph {
 			j++;
 		}
 		return null;
+	}
+	
+	/**
+	 * @param NetworkNode - A node that needs to be excluded. Usually as it belongs to the default route and can't be part of an alternative.
+	 */
+	@SuppressWarnings("unused")
+	public void excludeNode(NetworkNode n) {
+		
+		int index = nodes.indexOf(n);		
+		nodes.get(index).visited = 1;
 	}
 
 	/**
@@ -169,7 +179,7 @@ public class Graph {
 					s.push(child);
 					
 					if (child.getNodeId().equals(this.targetNode.getNodeId())) {
-						System.out.println("Target Node '" + child.getNodeId()
+						log.debug("Target Node '" + child.getNodeId()
 								+ "' reached. Distance=" + this.distanceAlong);
 
 						// Save route					
@@ -183,41 +193,40 @@ public class Graph {
 					kSession.update( fhState, routeState );
 					kSession.update( fhChild, child );
 					
-					
-
 					// Check the maximum distance along route
 					this.distanceAlong = this.distanceAlong + child.getLocation().distance(rootNode.getLocation());
-//					System.out.println("distanceAlong=" + this.distanceAlong);
-//					if (this.distanceAlong > MAX_DISTANCE_ALONG) {
-//						System.out.println("MAX_DISTANCE_ALONG = " + this.distanceAlong);
-//						break;
-//					}
+					
+					log.debug ("distanceAlong=" + this.distanceAlong);
+					if (this.distanceAlong > MAX_DISTANCE_ALONG) {
+						log.debug ("MAX_DISTANCE_ALONG = " + this.distanceAlong);
+						break;
+					}
 
 					kSession.setGlobal( "distanceAlong",
 							this.distanceAlong );
 					
-//					System.out.println("nodeCount=" + nodeCount );
+//					log.debug ("nodeCount=" + nodeCount );
 					
 					// Add some heuristics to guide the search
 					// Set a limit to the number of nodes traversed.
-//					if (nodeCount == MAX_NODES) {
-//						System.out.println("MAX_NODES");
-//						break;
-//					}
-					
-					kSession.fireAllRules();
-					log.debug("STATE=" + routeState.toString());
-					
-					if (routeState.isRoute_complete() == true) {
+					if (nodeCount == MAX_NODES) {
+						log.debug ("MAX_NODES");
 						break;
 					}
+					
+//					kSession.fireAllRules();
+					log.debug("STATE=" + routeState.toString());
+					
+//					if (routeState.isRoute_complete() == true) {
+//						break;
+//					}
 
 				} else {
 					s.pop();
 				}
 			}
 		} else {
-			System.out.println("root null");
+			log.debug ("root null");
 		}
 
 		// Clear visited property of nodes
@@ -235,7 +244,7 @@ public class Graph {
 			i++;
 		}
 	}
-
+	
 	// Utility methods for printing the node's label
 	private void printNode(NetworkNode n) {
 
@@ -244,10 +253,10 @@ public class Graph {
 			locationName = this.toNetworkLinkMap.get(n.getNodeId()).getLocationName();
 			alernativeRoute.add(this.toNetworkLinkMap.get(n.getNodeId()).getLinkId());
 		} catch (Exception ex) {
-//			System.out.println("locationName NULL");
+			log.debug ("locationName NULL");
 		}
 		
-		System.out.println(n.getNodeId() + " " + locationName);
+		log.debug (n.getNodeId() + " " + locationName);
 	}
 
 	/**
@@ -301,10 +310,11 @@ public class Graph {
 	public void closeKieSession () {
 		kSession.dispose(); // Statefull sessions *must* be properly disposed
 		
-		logger.close();
+/*		logger.close();
 		
 		if (readKieLogFile()) {
 			kie_log_file = "<explanation>" + kie_log_file + "</explanation>";
 		}
+		*/
 	}
 }

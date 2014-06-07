@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -31,6 +32,11 @@ public class EventSuitability {
 	private static final String KIE_LOG_FILENAME = "EventSuitabilityLog";
 	private String kie_log_file;
 	
+	private String errorText = "";
+	
+	private static final Logger log = Logger.getLogger(EventSuitability.class
+			.getName());
+	
 	/**
 	 * Constructor
 	 */
@@ -50,14 +56,16 @@ public class EventSuitability {
 		}
 	}
 
-	public StrategicEvent evaluateStrategicEvent (StrategicEvent strategicEvent) {
+	public StrategicEvent evaluateStrategicEvent (StrategicEvent strategicEvent) throws Exception {
 		
 		logger = KnowledgeRuntimeLoggerFactory.newFileLogger((KnowledgeRuntimeEventManager) kSession, KIE_LOG_FILENAME);
 		
+		errorText = errorText + "63,";
+		
 		NetworkLink networkLink = new NetworkLink();
 		networkLink.setLinkId(strategicEvent.getLink_id());
-		networkLink.setLocationName("M6 southbound within J15");
-		networkLink.setDirectionBound("southbound");
+
+		errorText = errorText + "68,";
 		
 		kSession.insert( strategicEvent );
 		kSession.insert( networkLink );
@@ -69,10 +77,14 @@ public class EventSuitability {
 		kSession.setGlobal( "DIVERSION_THRESHOLD",
 				60 );
 
+		errorText = errorText + "80,";
+		
 		kSession.fireAllRules();
 		
+		errorText = errorText + "84,";
 		endSession ();
 		
+		errorText = errorText + "85,";
 		return strategicEvent;
 	}
 	
@@ -81,8 +93,12 @@ public class EventSuitability {
 	 */
 	private void endSession () {
 				
+		errorText = errorText + "endSession (),";
+		
 		kSession.dispose();             // Statefull sessions *must* be properly disposed of...
 		logger.close();
+		
+		errorText = errorText + "101,";
 		
 		if (readKieLogFile()) {
 			kie_log_file = "<explanation>" + kie_log_file + "</explanation>";
@@ -94,6 +110,8 @@ public class EventSuitability {
 	 */
 	public boolean readKieLogFile()
 	{
+		errorText = errorText + "readKieLogFile(),";
+		
 	   kie_log_file = null;
 	   File file = new File(KIE_LOG_FILENAME + ".log"); //for ex foo.txt
 	   try {
@@ -106,13 +124,21 @@ public class EventSuitability {
 	       file.delete();  // Once we have the data dlete the physical file as it is not needed.
 	       
 	   } catch (IOException e) {
-	       e.printStackTrace();
+		   errorText = errorText + e.getMessage();
+		   log.error(e.getMessage());
 	       return false;
 	   }
+	   
+	   errorText = errorText + "132,";
+	   
 	   return true;
 	}
 
 	public String getExplantion() {
 		return kie_log_file;
+	}
+
+	public String getErrorText() {
+		return errorText;
 	}
 }
